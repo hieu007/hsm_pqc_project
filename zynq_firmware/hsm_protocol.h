@@ -1,0 +1,12 @@
+#ifndef HSM_PROTOCOL_H
+#define HSM_PROTOCOL_H
+
+#define CMD_SEND_PK        0x01
+#define CMD_ENCAPSULATE    0x02
+#define CMD_GET_RESULT     0x03
+
+#define KYBER_PUBLIC_KEY_BYTES    800
+#define KYBER_CIPHERTEXT_BYTES    768
+#define KYBER_SHARED_SECRET_BYTES 32
+
+#endif
