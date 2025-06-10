@@ -1,0 +1,12 @@
+hsm_pqc_project.zip
+│
+├── python_client/
+│   ├── main.py
+│   ├── hsm_interface.py
+│   └── protocol.py
+│
+└── zynq_firmware/
+    ├── main.c
+    ├── hsm_protocol.h
+    ├── kyber_accel_driver.c
+    └── kyber_accel_driver.h
