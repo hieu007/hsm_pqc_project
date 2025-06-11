@@ -1,0 +1,35 @@
+Kyber512 là một thuật toán mã hóa hậu lượng tử (post-quantum encryption) dựa trên Lattice (mạng tuyến tính) và thuộc họ Key Encapsulation Mechanism (KEM).
+
+1. Kyber512 – Mô tả ngắn
+Tên đầy đủ: CRYSTALS-Kyber
+Biến thể: Kyber512 là cấu hình nhẹ nhất (nhỏ nhất về độ dài khóa).
+Thông số chính:
+Security level tương đương AES-128
+Public key: ~800 bytes
+Ciphertext: ~768 bytes
+Shared secret: 32 bytes
+2) Các thành phần chính cần VHDL hoá
+Module	      Mô tả
+NTT/INTT	    Number Theoretic Transform dùng để tăng tốc đa thức
+PolyMul	      Nhân đa thức modulo q
+Keccak/SHA3	  Hash function (có thể dùng IP Core)
+RNG	          Bộ sinh số ngẫu nhiên cho sampling
+Control Logic	Điều khiển quá trình encapsulation và decapsulation
+A. Open-source (Verilog/VHDL) Implementations:
+1. Kyber VHDL by P. Schwabe et al.
+
+Một số nghiên cứu như "Hardware Implementation of Kyber KEM" trình bày các khối như:
+NTT (Number Theoretic Transform)
+Polynomial arithmetic
+Keccak/SHA3 (sử dụng trong Kyber)
+Nhưng các repo phổ biến hơn lại thường dùng Verilog hơn là VHDL.
+
+2. GitHub: pq-crystals/kyber
+
+Repo chính thức (bằng C) không có VHDL.
+Tuy nhiên, có thể tham khảo các bản chuyển đổi từ C → HDL thông qua HLS tools.
+
+3. TUM – Technical University of Munich (2021)
+
+Dự án: https://github.com/KULeuven-COSIC/Kyber512-hardware
+Họ sử dụng Verilog chứ không phải VHDL, nhưng có thể chuyển đổi logic sang VHDL.
