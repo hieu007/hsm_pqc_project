@@ -1,6 +1,9 @@
 -- CRYSTALS-Kyber FPGA Full Implementation (CBD, Parse, NTT)
 -- File: kyber_fpga_full.vhdl
-
+-- Author: Tran The Hieu 6/2025
+-- CBD (Centered Binomial Distribution): Sinh nhiễu từ mảng byte.
+-- Parse (Uniform Sampling): Sinh các hệ số phân bố đều.
+-- NTT (Number Theoretic Transform): Chuyển đổi các hệ số sang miền NTT để nhân nhanh.
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
