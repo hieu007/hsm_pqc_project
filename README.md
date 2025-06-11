@@ -9,6 +9,7 @@ Dự án này bao gồm:
 
 - `python_client/`: chứa mã Python client.
 - `zynq_firmware/`: chứa firmware C cho Zynq.
+- `crypto/`: chứa tài liệu các thuật toán mã hóa cho HSM.
 
 ## Ví dụ mã nguồn Python
 
