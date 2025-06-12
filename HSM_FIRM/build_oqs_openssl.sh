@@ -2,9 +2,9 @@
 # Build OQS-OpenSSL (hỗ trợ thuật toán hậu lượng tử)
 
 set -e
-
-sudo apt install -y git libssl-dev
-
-git clone --branch OQS-OpenSSL_1_1_1-stable https://github.com/open-quantum-safe/oqs-provider.git
+git clone https://github.com/open-quantum-safe/oqs-provider.git
 cd oqs-provider
-env OQS_LIBJADE_BUILD="OFF" bash scripts/fullbuild.sh
+mkdir build && cd build
+cmake -GNinja -DOQS_PROVIDER_EXAMPLES=ON ..
+ninja
+sudo ninja install
