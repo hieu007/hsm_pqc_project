@@ -1,0 +1,60 @@
+Dưới đây là hướng dẫn tích hợp PQC (Kyber) với HSM thông qua chuẩn PKCS#11, sử dụng OpenSSL + Open Quantum Safe (liboqs) + pkcs11-provider.
+✅ MỤC TIÊU
+- Dùng thuật toán Kyber PQC (từ liboqs).
+- Giao tiếp với HSM qua PKCS#11.
+- Sử dụng OpenSSL để thực hiện các thao tác mã hóa/ký số hậu lượng tử.
+| Thành phần        | Mục đích                         |
+| ----------------- | -------------------------------- |
+| `liboqs`          | Cung cấp thuật toán Kyber PQC    |
+| `oqs-openssl`     | Mở rộng OpenSSL để hỗ trợ PQC    |
+| `pkcs11-provider` | Kết nối PKCS#11 (HSM/SoftHSM)    |
+| `SoftHSM`         | Mô phỏng HSM (nếu không có thật) |
+BƯỚC 1: Cài đặt liboqs + OQS-OpenSSL
+# Cài các gói cần thiết
+sudo apt update
+sudo apt install cmake build-essential ninja-build libssl-dev
+
+# Clone liboqs và build
+git clone --recursive https://github.com/open-quantum-safe/liboqs.git
+cd liboqs
+mkdir build && cd build
+cmake -GNinja .. -DOQS_USE_OPENSSL=ON -DBUILD_SHARED_LIBS=ON
+ninja
+sudo ninja install
+# Clone và build OQS-OpenSSL (tùy chỉnh OpenSSL hỗ trợ PQC)
+cd ~
+git clone --branch OQS-OpenSSL_1_1_1-stable https://github.com/open-quantum-safe/oqs-openssl.git
+cd oqs-openssl
+./Configure linux-x86_64 -lm
+make -j$(nproc)
+sudo make install
+BƯỚC 2: Tích hợp PKCS#11 qua pkcs11-provider
+# Clone pkcs11-provider (nếu dùng HSM hoặc SoftHSM)
+git clone https://github.com/latchset/pkcs11-provider.git
+cd pkcs11-provider
+meson build
+ninja -C build
+sudo ninja -C build install
+
+Cấu hình pkcs11.conf (ví dụ cho SoftHSM):
+# Tạo file cấu hình: /etc/pkcs11/pkcs11.conf
+module = /usr/lib/softhsm/libsofthsm2.so
+
+BƯỚC 3: Tạo key PQC và kiểm tra
+Sử dụng oqs-openssl để tạo cặp khóa với thuật toán Kyber:
+# Tạo khóa công khai/bí mật dùng Kyber-512
+openssl req -new -newkey oqsdefault -algorithm kyber512 -keyout kyber.key -out kyber.csr
+# Thay kyber512 bằng kyber768 hoặc kyber1024 nếu muốn độ bảo mật cao hơn.
+BƯỚC 4: Kết nối HSM qua PKCS#11
+# Cài và cấu hình SoftHSM
+sudo apt install softhsm2
+softhsm2-util --init-token --slot 0 --label "PQC"
+Tải key PQC lên HSM (qua pkcs11-tool hoặc công cụ quản lý HSM của bạn).
+Kiểm tra hoạt động
+
+# Liệt kê các thuật toán PQC được hỗ trợ:
+openssl list -public-key-algorithms
+
+# Giao tiếp với pkcs11-provider:
+openssl req -engine pkcs11 -new -key <pkcs11-uri> -keyform engine -out pqc.csr
+pkcs11:token=PQC;object=mykey;type=private
