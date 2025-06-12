@@ -34,6 +34,36 @@ Thiết lập môi trường hậu lượng tử (Post-Quantum Cryptography) v�
 ```bash
 chmod +x *.sh
 dos2unix *.sh
+Cách khắc phục: Cài OpenSSL 3.0 (hoặc cao hơn)
+⚙️ Bước 1: Gỡ bản OpenSSL cũ (nếu muốn)
+bash
+Sao chépChỉnh sửa
+sudo apt remove --purge openssl libssl-dev -y
+Tùy chọn, chỉ nếu bạn muốn tránh xung đột
+
+⚙️ Bước 2: Tải, biên dịch và cài OpenSSL 3.0+
+bash
+Sao chépChỉnh sửa
+cd ~/Desktop/HSM
+wget https://www.openssl.org/source/openssl-3.0.14.tar.gz
+tar -xf openssl-3.0.14.tar.gz
+cd openssl-3.0.14
+./Configure --prefix=/opt/openssl3 --openssldir=/opt/openssl3 linux-x86_64
+make -j$(nproc)
+sudo make install
+⚙️ Bước 3: Export biến môi trường để sử dụng bản OpenSSL mới
+bash
+Sao chépChỉnh sửa
+export OPENSSL_ROOT_DIR=/opt/openssl3
+export PATH=/opt/openssl3/bin:$PATH
+export LD_LIBRARY_PATH=/opt/openssl3/lib:$LD_LIBRARY_PATH
+💡 Có thể thêm các lệnh này vào .bashrc để tự động hóa.
+
+⚙️ Bước 4: Kiểm tra lại
+bash
+Sao chépChỉnh sửa
+openssl version
+# Output nên là: OpenSSL 3.0.x ...
 
 ./build_liboqs.sh
 ./build_oqs_openssl.sh
