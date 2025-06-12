@@ -9,6 +9,39 @@ Dưới đây là hướng dẫn tích hợp PQC (Kyber) với HSM thông qua ch
 | `oqs-openssl`     | Mở rộng OpenSSL để hỗ trợ PQC    |
 | `pkcs11-provider` | Kết nối PKCS#11 (HSM/SoftHSM)    |
 | `SoftHSM`         | Mô phỏng HSM (nếu không có thật) |
+
+pqc-hsm-setup/
+├── build_liboqs.sh
+├── build_oqs_openssl.sh
+├── setup_pkcs11_provider.sh
+├── setup_softhsm.sh
+├── test_pkcs11_with_pqc.sh
+└── README.md
+
+
+# pqc-hsm-setup
+
+Thiết lập môi trường hậu lượng tử (Post-Quantum Cryptography) với hỗ trợ PKCS#11 và HSM/SoftHSM, sử dụng các công cụ từ Open Quantum Safe.
+
+## 🛠️ Công cụ sử dụng
+- [liboqs](https://github.com/open-quantum-safe/liboqs): thư viện thuật toán PQC
+- [OQS-OpenSSL](https://github.com/open-quantum-safe/oqs-openssl): mở rộng OpenSSL để hỗ trợ PQC
+- [pkcs11-provider](https://github.com/latchset/pkcs11-provider): tích hợp PKCS#11
+- [SoftHSM2](https://github.com/opendnssec/SoftHSMv2): mô phỏng HSM cho phát triển và test
+
+## ⚙️ Cài đặt
+
+```bash
+chmod +x *.sh
+
+./build_liboqs.sh
+./build_oqs_openssl.sh
+./setup_pkcs11_provider.sh
+./setup_softhsm.sh
+./test_pkcs11_with_pqc.sh
+
+
+
 BƯỚC 1: Cài đặt liboqs + OQS-OpenSSL
 # Cài các gói cần thiết
 sudo apt update
