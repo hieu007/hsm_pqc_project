@@ -33,6 +33,7 @@ Thiết lập môi trường hậu lượng tử (Post-Quantum Cryptography) v�
 
 ```bash
 chmod +x *.sh
+dos2unix *.sh
 
 ./build_liboqs.sh
 ./build_oqs_openssl.sh
