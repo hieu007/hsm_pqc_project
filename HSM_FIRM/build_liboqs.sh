@@ -5,7 +5,7 @@ set -e
 
 sudo apt update
 sudo apt install -y cmake ninja-build build-essential
-
+sudo apt install cmake
 git clone --recursive https://github.com/open-quantum-safe/liboqs.git
 cd liboqs
 mkdir build && cd build
