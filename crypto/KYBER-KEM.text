@@ -1,0 +1,56 @@
+               +--------------------+
+               |    KeyGen()        |
+               |--------------------|
+               | - Sinh khóa bí mật |
+               | - Sinh khóa công khai|
+               +--------------------+
+                         |
+             (PublicKey, SecretKey)
+                         ↓
+                  +--------------+
+                  | Encaps(PK)   |
+                  |--------------|
+                  | - Sinh khóa đối xứng K  |
+                  | - Tạo ciphertext (CT)   |
+                  +--------------+
+                         |
+              (Ciphertext, Shared key K)
+                         ↓
+                  +--------------+
+                  | Decaps(SK, CT)|
+                  |--------------|
+                  | - Giải mã CT để |
+                  |   lấy lại K     |
+                  +--------------+
+1. Key Generation (KeyGen)
+
+- Tạo ra một khóa công khai (pk) và khóa bí mật (sk).
+
+- Dựa trên Module-LWE, sinh ma trận ngẫu nhiên, thực hiện phép nhân ma trận và thêm nhiễu Gaussian.
+
+2. Encapsulation (Encaps)
+
+- Dùng pk để mã hóa một thông điệp bí mật → tạo ra ciphertext (ct).
+
+- Đồng thời sinh ra khóa đối xứng dùng chung (shared secret K).
+
+3. Decapsulation (Decaps)
+
+Dùng sk để giải mã ct, khôi phục lại khóa đối xứng K giống bên gửi.
+Note: Thuật toán Kyber chống lại tấn công lượng tử là vì nó không dựa trên các bài toán toán học mà máy tính lượng tử có thể giải hiệu quả, như RSA hay ECC, mà dựa trên bài toán Lattice (mạng rời rạc) — cụ thể là Module-LWE (Learning With Errors).
+1. Không dựa trên phân tích nguyên tố hay logarit rời rạc:
+-Các thuật toán như RSA, Diffie-Hellman hay ECC có thể bị phá bởi thuật toán Shor trên máy tính lượng tử → thời gian giải bài toán logarit rời rạc trở thành đa thức.
+2. Dựa trên bài toán mạng (Lattice Problem):
+Kyber dựa vào Module-LWE, một biến thể của Learning With Errors (LWE), vốn được chứng minh là khó giải ngay cả với máy tính lượng tử.
+-Chưa có thuật toán lượng tử nào giải được Module-LWE trong thời gian hiệu quả.
+-Nhiễu (Error) làm tăng độ khó:
+3. Việc thêm nhiễu vào các phép nhân trong Module-LWE khiến bài toán càng khó hơn cho bất kỳ thuật toán nào (kể cả lượng tử).
+III. So sánh với RSA/ECC
+| Tiêu chí                     | **Kyber**                         | **RSA**                           | **ECC**                                  |
+| ---------------------------- | --------------------------------- | --------------------------------- | ---------------------------------------- |
+| **Kháng lượng tử**           | ✅ An toàn trước tấn công lượng tử | ❌ Bị phá bởi thuật toán Shor      | ❌ Bị phá bởi thuật toán Shor             |
+| **Cơ sở toán học**           | Bài toán mạng (Module-LWE)        | Phân tích số nguyên tố lớn        | Logarit rời rạc trên đường cong elliptic |
+| **Kích thước khóa**          | 🔑 Nhỏ hơn RSA, lớn hơn ECC       | 🔑 Rất lớn (≥2048 bit)            | 🔑 Nhỏ (≈256 bit)                        |
+| **Hiệu suất mã hóa/giải mã** | ⏱️ Nhanh hơn RSA                  | ⏱️ Chậm hơn Kyber                 | ⏱️ Nhanh hơn RSA, nhưng chậm hơn Kyber   |
+| **Tiêu chuẩn hóa**           | ✅ Được NIST chọn (Kyber-1024)     | ✅ Cũ, không an toàn hậu lượng tử  | ✅ Cũ, không an toàn hậu lượng tử         |
+| **Ứng dụng tương lai**       | Mã hóa hậu lượng tử, IoT, VPN,... | Giảm dần, không khuyến khích dùng | Giảm dần, không khuyến khích dùng        |
