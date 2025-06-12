@@ -40,7 +40,11 @@ chmod +x *.sh
 ./setup_softhsm.sh
 ./test_pkcs11_with_pqc.sh
 
-
+🔐 SoftHSM
+Token mặc định:
+Label: PQC-TOKEN
+User PIN: 1234
+SO PIN: 0000
 
 BƯỚC 1: Cài đặt liboqs + OQS-OpenSSL
 # Cài các gói cần thiết
