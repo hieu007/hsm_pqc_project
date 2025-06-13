@@ -2,14 +2,14 @@
 set -e
 
 # 1. Tải và build liboqs
-echo "Cloning and building liboqs..."
-cd ~/Desktop/HSM
-git clone --branch main https://github.com/open-quantum-safe/liboqs.git
-cd liboqs
-mkdir -p build && cd build
-cmake -DCMAKE_INSTALL_PREFIX=/opt/liboqs ..
-make -j$(nproc)
-sudo make install
+#echo "Cloning and building liboqs..."
+#cd ~/Desktop/HSM
+#git clone --branch main https://github.com/open-quantum-safe/liboqs.git
+#cd liboqs
+#mkdir -p build && cd build
+#cmake -DCMAKE_INSTALL_PREFIX=/opt/liboqs ..
+#make -j$(nproc)
+#sudo make install
 
 # 2. Tải và build oqs-provider
 echo "Cloning and building oqs-provider..."
